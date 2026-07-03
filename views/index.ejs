@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-100 text-slate-900">
+    <div class="relative min-h-screen overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-cyan-100 via-sky-50 to-indigo-100"></div>
+      <div class="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl"></div>
+      <div class="absolute -bottom-16 -left-20 h-72 w-72 rounded-full bg-sky-300/30 blur-3xl"></div>
+
+      <main class="relative mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+        <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl"><%= title %></h1>
+              <p class="mt-1 text-sm text-slate-600">
+                Temporary stored entries: <strong id="countLabel" class="text-slate-800"><%= totalSubmissions %></strong>
+              </p>
+            </div>
+
+            <nav class="flex flex-wrap gap-2" aria-label="Client routes">
+              <a href="#form" data-route-link class="rounded-lg bg-cyan-700 px-4 py-2 text-sm font-semibold text-white">Form</a>
+              <a href="#entries" data-route-link class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Entries</a>
+            </nav>
+          </div>
+
+          <div id="clientErrors" class="mt-5"></div>
+
+          <section id="route-form" data-route-section class="mt-5">
+            <form id="mainForm" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label for="username" class="mb-1 block text-sm font-semibold text-slate-700">Username</label>
+                <input id="username" name="username" type="text" placeholder="Enter your username" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200" />
+                <p class="mt-1 text-xs text-slate-500">3-30 characters: letters, numbers, spaces</p>
+              </div>
+
+              <div>
+                <label for="email" class="mb-1 block text-sm font-semibold text-slate-700">Email</label>
+                <input id="email" name="email" type="email" placeholder="Enter your email" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200" />
+              </div>
+
+              <div>
+                <label for="age" class="mb-1 block text-sm font-semibold text-slate-700">Age</label>
+                <input id="age" name="age" type="number" min="18" max="100" placeholder="18-100" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200" />
+              </div>
+
+              <div>
+                <label for="gender" class="mb-1 block text-sm font-semibold text-slate-700">Gender</label>
+                <select id="gender" name="gender" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200">
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="password" class="mb-1 block text-sm font-semibold text-slate-700">Password</label>
+                <input id="password" name="password" type="password" placeholder="Create strong password" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200" oninput="updatePasswordMeter()" />
+                <div class="mt-2 h-2 w-full rounded-full bg-slate-200">
+                  <div id="passwordBar" class="h-2 w-0 rounded-full bg-slate-300 transition-all"></div>
+                </div>
+                <p id="passwordText" class="mt-1 text-xs text-slate-500">Password strength: -</p>
+              </div>
+
+              <div>
+                <label for="confirmPassword" class="mb-1 block text-sm font-semibold text-slate-700">Confirm Password</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Re-enter password" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200" />
+              </div>
+
+              <div class="sm:col-span-2">
+                <p class="mb-2 text-sm font-semibold text-slate-700">Interests</p>
+                <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
+                    <input type="checkbox" name="interests" value="coding" class="h-4 w-4 accent-cyan-600" />
+                    <span>Coding</span>
+                  </label>
+                  <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
+                    <input type="checkbox" name="interests" value="design" class="h-4 w-4 accent-cyan-600" />
+                    <span>Design</span>
+                  </label>
+                  <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
+                    <input type="checkbox" name="interests" value="music" class="h-4 w-4 accent-cyan-600" />
+                    <span>Music</span>
+                  </label>
+                  <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
+                    <input type="checkbox" name="interests" value="sports" class="h-4 w-4 accent-cyan-600" />
+                    <span>Sports</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label for="bio" class="mb-1 block text-sm font-semibold text-slate-700">Short Bio</label>
+                <textarea id="bio" name="bio" rows="4" maxlength="250" oninput="updateCounter()" class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"></textarea>
+                <p id="bioCounter" class="mt-1 text-xs text-slate-500">0/250 characters (minimum 20)</p>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                  <input type="checkbox" id="agree" name="agree" class="h-4 w-4 accent-cyan-600" />
+                  <span>I agree to the terms and conditions.</span>
+                </label>
+              </div>
+
+              <div class="sm:col-span-2 flex flex-wrap gap-3">
+                <button id="submitBtn" type="submit" class="rounded-lg bg-cyan-700 px-5 py-2.5 font-semibold text-white transition hover:bg-cyan-800">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section id="route-entries" data-route-section class="mt-5 hidden">
+            <h2 class="text-xl font-semibold text-slate-900">Stored Entries</h2>
+            <p class="mt-1 text-sm text-slate-600">Open temporary storage page to edit/delete data.</p>
+            <a href="/submissions" class="mt-4 inline-flex rounded-lg bg-cyan-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-800">
+              Stored Entries
+            </a>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const ROUTES = ["form", "entries"];
+
+      function getStrengthMeta(password) {
+        if (!password) {
+          return { label: "-", width: "0%", bar: "bg-slate-300" };
+        }
+
+        let score = 0;
+        if (password.length >= 8) score += 1;
+        if (/[A-Z]/.test(password)) score += 1;
+        if (/[a-z]/.test(password)) score += 1;
+        if (/\d/.test(password)) score += 1;
+        if (/[^A-Za-z0-9]/.test(password)) score += 1;
+
+        if (score <= 2) return { label: "Weak", width: "33%", bar: "bg-rose-500" };
+        if (score <= 4) return { label: "Medium", width: "66%", bar: "bg-amber-500" };
+        return { label: "Strong", width: "100%", bar: "bg-emerald-500" };
+      }
+
+      function updateCounter() {
+        const bio = document.getElementById("bio").value.trim();
+        document.getElementById("bioCounter").textContent = `${bio.length}/250 characters (minimum 20)`;
+      }
+
+      function updatePasswordMeter() {
+        const password = document.getElementById("password").value;
+        const strength = getStrengthMeta(password);
+        const bar = document.getElementById("passwordBar");
+        bar.style.width = strength.width;
+        bar.className = `h-2 rounded-full transition-all ${strength.bar}`;
+        document.getElementById("passwordText").textContent = `Password strength: ${strength.label}`;
+      }
+
+      function getPayloadFromForm() {
+        const form = document.getElementById("mainForm");
+        const formData = new FormData(form);
+        return {
+          username: formData.get("username"),
+          email: formData.get("email"),
+          age: formData.get("age"),
+          gender: formData.get("gender"),
+          bio: formData.get("bio"),
+          agree: formData.get("agree") === "on",
+          password: formData.get("password"),
+          confirmPassword: formData.get("confirmPassword"),
+          interests: formData.getAll("interests"),
+        };
+      }
+
+      function showMessage(type, title, lines = []) {
+        const classes =
+          type === "error"
+            ? "border-rose-300 bg-rose-50 text-rose-900"
+            : "border-emerald-300 bg-emerald-50 text-emerald-900";
+        const list = lines.length ? `<ul class="mt-2 list-inside list-disc text-sm">${lines.map((line) => `<li>${line}</li>`).join("")}</ul>` : "";
+        document.getElementById("clientErrors").innerHTML = `<div class="rounded-lg border px-4 py-3 ${classes}"><p class="font-semibold">${title}</p>${list}</div>`;
+      }
+
+      function clearMessage() {
+        document.getElementById("clientErrors").innerHTML = "";
+      }
+
+      function renderRoute() {
+        const route = (location.hash || "#form").slice(1);
+        const active = ROUTES.includes(route) ? route : "form";
+
+        document.querySelectorAll("[data-route-section]").forEach((section) => {
+          section.classList.add("hidden");
+        });
+        document.getElementById(`route-${active}`).classList.remove("hidden");
+
+        document.querySelectorAll("[data-route-link]").forEach((link) => {
+          link.className = "rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700";
+        });
+        document.querySelectorAll(`[data-route-link][href="#${active}"]`).forEach((link) => {
+          link.className = "rounded-lg bg-cyan-700 px-4 py-2 text-sm font-semibold text-white";
+        });
+      }
+
+      async function submitForm(event) {
+        event.preventDefault();
+        clearMessage();
+
+        try {
+          const response = await fetch("/api/submissions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(getPayloadFromForm()),
+          });
+
+          const data = await response.json();
+          if (!response.ok) {
+            showMessage("error", "Validation Failed", data.errors || [data.error || "Request failed."]);
+            return;
+          }
+
+          showMessage("success", "Created", ["Record created successfully."]);
+          document.getElementById("countLabel").textContent = Number(document.getElementById("countLabel").textContent || 0) + 1;
+          document.getElementById("mainForm").reset();
+          updateCounter();
+          updatePasswordMeter();
+        } catch {
+          showMessage("error", "Network Error", ["Could not reach the API."]);
+        }
+      }
+
+      document.getElementById("mainForm").addEventListener("submit", submitForm);
+      window.addEventListener("hashchange", renderRoute);
+
+      updateCounter();
+      updatePasswordMeter();
+      renderRoute();
+    </script>
+  </body>
+</html>
