@@ -214,15 +214,6 @@ The application will be available at `http://localhost:3000`
 - `npm run dev` - Start the application with auto-restart (if configured)
 - `npm test` - Run tests (currently not implemented)
 
-### Features in Development
-
-- [ ] Unit tests for validation functions
-- [ ] Integration tests for API endpoints
-- [ ] Authentication and authorization
-- [ ] Persistent storage (database)
-- [ ] Email notifications
-- [ ] Admin dashboard
-
 ## Project Notes
 
 This project was created as part of the Cognifyz Task 5 assignment. It demonstrates:
